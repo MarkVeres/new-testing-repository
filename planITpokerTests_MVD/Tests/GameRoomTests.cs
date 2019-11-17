@@ -107,7 +107,6 @@ namespace _01_planITpoker_clas_library_tests
         [Fact]
         public void VotingAfterCountdownEnds()
         {
-            //adding comment for test
             var home = new HomePage(driver);
             var quick = home.QuickPlay();
             var room = quick.QuickPlay("Jack");
