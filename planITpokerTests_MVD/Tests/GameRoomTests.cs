@@ -87,6 +87,13 @@ namespace _01_planITpoker_clas_library_tests
             Assert.Equal("Next Story", game.NextStory);
         }
         [Fact]
+        public void TimeTheVoteProcess()
+        {
+            var home = new HomePage(driver);
+            var game = home.QuickPlayGame("Jack", "Test Room", "Test Story", "Test Story 2");
+            Assert.Equal("00:00:00", game.Timer);
+        }
+        [Fact]
         public void UseCountdownTimer()
         {
             var home = new HomePage(driver);
@@ -107,6 +114,7 @@ namespace _01_planITpoker_clas_library_tests
             game.CreateStory("Test story", "Test story 2");
             game.Start();
             game.Vote1AfterCountdownEnds();
+            // wait for the 30 second countdown to end and then votes card 1
             Assert.Equal("1", game.Votes);
         }
         [Fact]
@@ -126,13 +134,6 @@ namespace _01_planITpoker_clas_library_tests
             var room = quick.QuickPlay("Jack");
             var game = room.NoStories("Test Room");
             Assert.Equal("End tour", game.EndTour);
-        }
-        [Fact]
-        public void TimeTheVoteProcess()
-        {
-            var home = new HomePage(driver);
-            var game = home.QuickPlayGame("Jack", "Test Room", "Test Story", "Test Story 2");
-            Assert.Equal("00:00:00", game.Timer);
         }
         [Fact]
         public void EditCreatedStories()
