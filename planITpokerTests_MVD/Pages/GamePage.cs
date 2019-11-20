@@ -152,18 +152,26 @@ namespace _01_planITpoker_clas_library_tests.Pages
             var game = new GamePage(driver, wait);
             return game;
         }
-        public GamePage Vote1()
+        public GamePage Vote(int num)
         {
-            driver.FindElement(card1).Click();
+            string card = Convert.ToString(num + 2);
+            driver.FindElement(By.XPath("/html/body/div[1]/div/div[1]/div/div/section/div/div[2]/div[2]/div[1]/div/section/div[2]/ul/li[" + card + "]/button/div[2]")).Click();
             var game = new GamePage(driver, wait);
             return game;
         }
-        public GamePage Vote2()
-        {
-            driver.FindElement(card2).Click();
-            var game = new GamePage(driver, wait);
-            return game;
-        }
+        // individual vote Methods
+        //public GamePage Vote1()
+        //{
+        //    driver.FindElement(card1).Click();
+        //    var game = new GamePage(driver, wait);
+        //    return game;
+        //}
+        //public GamePage Vote2()
+        //{
+        //    driver.FindElement(card2).Click();
+        //    var game = new GamePage(driver, wait);
+        //    return game;
+        //}
         public GamePage FinishVoting()
         {
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(finishVoting)).Click();

@@ -32,7 +32,7 @@ namespace _01_planITpoker_clas_library_tests
             var home = new HomePage(driver);
             var game = home.QuickPlayGame("Jack", "Test Room", "Test Story", "Test Story 2");
             game.Start();
-            game.Vote1();
+            game.Vote(1);
             game.FinishVoting();
             var room = game.GoToRoomsPage();
             room.ResetGameRoom();

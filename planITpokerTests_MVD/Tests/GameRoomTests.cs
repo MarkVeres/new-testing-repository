@@ -23,7 +23,7 @@ namespace _01_planITpoker_clas_library_tests
             var home = new HomePage(driver);
             var game = home.QuickPlayGame("Jack", "Test Room", "Test Story", "Test Story 2");
             game.Start();
-            game.Vote1();
+            game.Vote(1);
             game.FinishVoting();
             //asserts that story exists in story list
             Assert.Equal("Test Story", game.StoryName);
@@ -34,7 +34,7 @@ namespace _01_planITpoker_clas_library_tests
             var home = new HomePage(driver);
             var game = home.QuickPlayGame("Jack", "Test Room", "Test Story", "Test Story 2");
             game.Start();
-            game.Vote1();
+            game.Vote(1);
             Assert.Equal("1", game.Votes);
         }
         [Fact]
@@ -42,7 +42,7 @@ namespace _01_planITpoker_clas_library_tests
         {
             var home = new HomePage(driver);
             var game = home.QuickPlayGame("Jack", "Test Room", "Test Story", "Test Story 2");
-            game.Vote1();
+            game.Vote(1);
             Assert.Equal("Click Start button to begin voting", game.ToastError);
         }
         [Fact]
@@ -51,8 +51,8 @@ namespace _01_planITpoker_clas_library_tests
             var home = new HomePage(driver);
             var game = home.QuickPlayGame("Jack", "Test Room", "Test Story", "Test Story 2");
             game.Start();
-            game.Vote1();
-            game.Vote2();
+            game.Vote(1);
+            game.Vote(2);
             Assert.Equal("Vote cannot be changed once voting is completed", game.ToastError);
         }
         [Fact]
@@ -61,9 +61,9 @@ namespace _01_planITpoker_clas_library_tests
             var home = new HomePage(driver);
             var game = home.QuickPlayGame("Jack", "Test Room", "Test Story", "Test Story 2");
             game.Start();
-            game.Vote1();
+            game.Vote(1);
             game.ClearVotes();
-            game.Vote1();
+            game.Vote(1);
             Assert.Equal("1", game.Votes);
         }
         [Fact]
@@ -73,7 +73,7 @@ namespace _01_planITpoker_clas_library_tests
             var game = home.QuickPlayGame("Jack", "Test Room", "Test story", "Test Story 2");
             game.ChangeRoleObserver();
             game.Start();
-            game.Vote1();
+            game.Vote(1);
             Assert.Equal("Observers cannot vote", game.ToastError);
         }
         [Fact]
@@ -182,8 +182,8 @@ namespace _01_planITpoker_clas_library_tests
             var game = room.AllowPlayersChangeVote("Test Room");
             game.CreateStory("Test story", "Test story 2");
             game.Start();
-            game.Vote2();
-            game.Vote1();
+            game.Vote(2);
+            game.Vote(1);
             Assert.Equal("1", game.Votes);
         }
         public void Dispose()
