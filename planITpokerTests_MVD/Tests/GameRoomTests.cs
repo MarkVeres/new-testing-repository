@@ -157,7 +157,7 @@ namespace _01_planITpoker_clas_library_tests
         public void DeleteCreatedStories()
         {
             //deletes the first of the 2 stories (deletes "Test Story")
-            //"Test Story 2" remains and thus it can be asserted
+            //only "Test Story 2" remains and thus it can be asserted
             var home = new HomePage(driver);
             var game = home.QuickPlayGame("Jack", "Test Room", "Test Story", "Test Story 2");
             game.DeleteStory();
@@ -167,7 +167,6 @@ namespace _01_planITpoker_clas_library_tests
         public void ExportGameReport()
         {
             //Asserts the existence of the "Export Stories" button
-            //this assert is made only after voting on at least 1 story
             var home = new HomePage(driver);
             var game = home.QuickPlayGame("Jack", "Test Room", "Test Story", "Test Story 2");
             game.GetReport();

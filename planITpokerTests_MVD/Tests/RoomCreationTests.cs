@@ -38,7 +38,6 @@ namespace _01_planITpoker_clas_library_tests
             room.ResetGameRoom();
             Assert.Equal("Total: 00:00:00", room.TotalTime);
         }
-
         [Fact]
         public void DeleteGameRoom()
         {
@@ -46,9 +45,8 @@ namespace _01_planITpoker_clas_library_tests
             var game = home.QuickPlayGame("Jack", "Test Room", "Test Story", "Test Story 2");
             var room = game.GoToRoomsPage();
             room.DeleteGameRoom();
-            Assert.Empty(driver.FindElements(By.ClassName(".clickable")));
+            Assert.Empty(room.RoomList);
         }
-
         public void Dispose()
         {
             driver.Quit();

@@ -40,6 +40,13 @@ namespace _01_planITpoker_clas_library_tests
                 return driver.FindElement(By.CssSelector(".col-sm-9 > div:nth-child(1)")).Text;
             }
         }
+        public IEnumerable RoomList
+        {
+            get
+            {
+                return driver.FindElements(By.ClassName(".clickable"));
+            }
+        }
         public string TotalTime  //used for ResetGameRoom Test Assert
         {
             get
