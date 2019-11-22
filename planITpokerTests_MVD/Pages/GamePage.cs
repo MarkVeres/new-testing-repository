@@ -51,6 +51,13 @@ namespace _01_planITpoker_clas_library_tests.Pages
             this.driver = driver;
             this.wait = wait;
         }
+        public string InviteLink
+        {
+            get
+            {
+                return driver.FindElement(By.CssSelector("#invite-link")).GetAttribute("value").ToString();
+            }
+        }
         public string EndTour  //used for DissallowStoryCreation Test Assert
         {
             get
@@ -63,6 +70,13 @@ namespace _01_planITpoker_clas_library_tests.Pages
             get
             {
                 return wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(userPlayers)).Text;
+            }
+        }
+        public string RoomName   //used for MultipleUsers Test Assert
+        {
+            get
+            {
+                return driver.FindElement(By.CssSelector(".page-header")).Text;
             }
         }
         public string Report  //used for CreateStoryReport Test Assert
@@ -135,7 +149,13 @@ namespace _01_planITpoker_clas_library_tests.Pages
                 return wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(nextStoryButton)).Text;
             }
         }
-
+        public IWebElement ModeratorRole  //used for RoomCreatorShouldBeModerator Test Assert
+        {
+            get
+            {
+                return driver.FindElement(By.CssSelector(".moderator > i:nth-child(1)"));
+            }
+        }
         public GamePage CreateStory(string inputStory, string inputStory2)
         {
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(createStory)).SendKeys(inputStory);
@@ -176,9 +196,9 @@ namespace _01_planITpoker_clas_library_tests.Pages
         }
         public GamePage Vote1AfterCountdownEnds()
         {
-            var game = new GamePage(driver, wait);
             Thread.Sleep(32000);
             driver.FindElement(card1).Click();
+            var game = new GamePage(driver, wait);
             return game;
         }
         public GamePage VoteAndSendEstimates()
@@ -234,6 +254,12 @@ namespace _01_planITpoker_clas_library_tests.Pages
             driver.FindElement(accountRooms).Click();
             var room = new RoomsPage(driver, wait);
             return room;
+        }
+        public GamePage ClickAvatar()
+        {
+            driver.FindElement(avatar).Click();
+            var game = new GamePage(driver, wait);
+            return game;
         }
         public GamePage ChangeRoleObserver()
         {

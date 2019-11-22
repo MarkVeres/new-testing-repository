@@ -185,6 +185,14 @@ namespace _01_planITpoker_clas_library_tests
             game.Vote(1);
             Assert.Equal("1", game.Votes);
         }
+        [Fact]
+        public void RoomCreatorShouldBeModerator()
+        {
+            var home = new HomePage(driver);
+            var game = home.QuickPlayGame("Jack", "Test Room", "Test Story", "Test Story 2");
+            game.ClickAvatar();
+            Assert.NotNull(game.ModeratorRole);
+        }
         public void Dispose()
         {
             driver.Quit();
