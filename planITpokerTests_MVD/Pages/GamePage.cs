@@ -45,6 +45,9 @@ namespace _01_planITpoker_clas_library_tests.Pages
         By estimatesForty = By.CssSelector("option.ng-binding:nth-child(10)");
         By completedStoriesTab = By.CssSelector("section.stories-list:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > ul:nth-child(1) > li:nth-child(2) > a:nth-child(1) > span:nth-child(1)");
         By toastMessage = By.CssSelector("#toast-container");
+        //By playerOneAvatar = By.CssSelector("div.player:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1)");
+        //By playerTwoAvatar = By.CssSelector("div.player:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1)");
+        //By moderatorRole = By.CssSelector(".open > ul:nth-child(2) > li:nth-child(1) > a:nth-child(1)");
 
         public GamePage(IWebDriver driver, WebDriverWait wait)
         {
@@ -204,7 +207,7 @@ namespace _01_planITpoker_clas_library_tests.Pages
         public GamePage VoteAndSendEstimates()
         {
             //votes 1 and estimate = 1 on first question and votes 2 and estimate = 2 on second question
-            //also clicked toast messages so they dissapear faster in order to be able to click certain buttons
+            //also clicks toast messages so they dissapear faster in order to be able to click certain buttons
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(startButton)).Click();
             driver.FindElement(toastMessage).Click();
             driver.FindElement(card1).Click();
@@ -300,5 +303,23 @@ namespace _01_planITpoker_clas_library_tests.Pages
             var game = new GamePage(driver, wait);
             return game;
         }
+        //public GamePage ClickPlayerOneAvatar()
+        //{
+        //    wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(playerOneAvatar)).Click();
+        //    var game = new GamePage(driver, wait);
+        //    return game;
+        //}
+        //public GamePage ClickPlayerTwoAvatar()
+        //{
+        //    wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(playerTwoAvatar)).Click();
+        //    var game = new GamePage(driver, wait);
+        //    return game;
+        //}
+        //public GamePage AssignModeratorRole()
+        //{
+        //    driver.FindElement(moderatorRole).Click();
+        //    var game = new GamePage(driver, wait);
+        //    return game;
+        //}
     }
 }

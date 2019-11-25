@@ -1,6 +1,7 @@
 ﻿using _01_planITpoker_clas_library_tests.Pages;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using planITpokerTests_MVD.Pages;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -59,6 +60,13 @@ namespace _01_planITpoker_clas_library_tests
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(createRoomName)).SendKeys(inputroomName);
             driver.FindElement(createButton).Click();
             GamePage game = new GamePage(driver, wait);
+            return game;
+        }
+        public MultipleUserGamePage MultipleUserCreateRoom(string inputroomName)
+        {
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(createRoomName)).SendKeys(inputroomName);
+            driver.FindElement(createButton).Click();
+            var game = new MultipleUserGamePage(driver, wait);
             return game;
         }
         public RoomsPage ResetGameRoom()

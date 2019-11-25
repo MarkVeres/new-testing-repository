@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using _01_planITpoker_clas_library_tests.Pages;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
@@ -16,12 +17,20 @@ namespace _01_planITpoker_clas_library_tests
         WebDriverWait wait;
         By userName = By.CssSelector(".form-control");
         By enterButton = By.CssSelector("button.btn");
+        By roomName = By.CssSelector(".page-header");
 
         public QuickPlayPage(IWebDriver driver, WebDriverWait wait)
         {
             this.driver = driver;
             this.wait = wait;
         }
+        public QuickPlayPage(IWebDriver driver, string website)
+        {
+            this.driver = driver;
+            this.wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+            driver.Url = website;
+        }
+
         public RoomsPage QuickPlayLogin(string inputName)
         {
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(userName)).SendKeys(inputName);
@@ -29,6 +38,14 @@ namespace _01_planITpoker_clas_library_tests
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.ClassName("btn-cancel"))).Click();
             RoomsPage room = new RoomsPage(driver, wait);
             return room;
+        }
+        public GamePage QuickPlayDirect(string inputName)
+        {
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(userName)).SendKeys(inputName);
+            driver.FindElement(enterButton).Click();
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(roomName));
+            GamePage game = new GamePage(driver, wait);
+            return game;
         }
         public RoomsPage QuickPlay(string inputName)
         {

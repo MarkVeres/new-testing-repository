@@ -2,6 +2,7 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
+using planITpokerTests_MVD.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,6 +50,15 @@ namespace _01_planITpoker_clas_library_tests
             var quick = new QuickPlayPage(driver, wait);
             var room = quick.QuickPlay(userName);
             var game = room.CreateRoom(roomName);
+            var created = game.CreateStory(story, story2);
+            return created;
+        }
+        public MultipleUserGamePage MultipleUserQuickPlayGame(string userName, string roomName, string story, string story2)
+        {
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(QuickplayButton)).Click();
+            var quick = new QuickPlayPage(driver, wait);
+            var room = quick.QuickPlay(userName);
+            var game = room.MultipleUserCreateRoom(roomName);
             var created = game.CreateStory(story, story2);
             return created;
         }
