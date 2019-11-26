@@ -24,9 +24,9 @@ namespace planITpokerTests_MVD.Tests
             var game = home.QuickPlayGame("Jack", "Test Room", "Test Story", "Test Story 2");
             string website = game.InviteLink;
             driver.Quit();
-            driver = new FirefoxDriver();
-            var uHome = new QuickPlayPage(driver, website);
-            var uGame = uHome.QuickPlayDirect("John");
+            driver2 = new FirefoxDriver();
+            var uHome = new QuickPlayPage(driver2, website);
+            var uGame = uHome.JoinQuickPlay("John");
             Assert.Equal("Test Room", uGame.RoomName);
         }
         [Fact]
@@ -37,7 +37,7 @@ namespace planITpokerTests_MVD.Tests
             string website = game.InviteLink;
             driver2 = new FirefoxDriver();
             var uHome = new QuickPlayPage(driver2, website);
-            var uGame = uHome.QuickPlayDirect("John");
+            var uGame = uHome.JoinQuickPlay("John");
             driver.SwitchTo().Window(driver.WindowHandles.Last());
             game.ClickPlayerTwoAvatar();
             game.ClickModeratorRole();
@@ -48,10 +48,26 @@ namespace planITpokerTests_MVD.Tests
             //now Jack is second in the player name list
             Assert.Equal("Jack", game.PlayerTwoName);
         }
+        [Fact]
+        public void ObserverSeesPlayersVotingInRealTime()
+        {
+            var home = new HomePage(driver);
+            var game = home.MultipleUserQuickPlayGame("Jack", "Test Room", "Test Story", "Test Story 2");
+            game.Start();
+            game.Vote(1);
+            string website = game.InviteLink;
+            driver2 = new FirefoxDriver();
+            var uHome = new QuickPlayPage(driver2, website);
+            var uGame = uHome.JoinQuickPlay("John");
+            uGame.ClickPlayerTwoAvatar();
+            uGame.ClickObserverRole();
+            Assert.NotEqual("00:00:00", uGame.Timer);
+            Assert.Equal("1", game.Votes);
+        }
         public void Dispose()
         {
-            driver2.Quit();
             driver.Quit();
+            driver2.Quit();
         }
     }
 }

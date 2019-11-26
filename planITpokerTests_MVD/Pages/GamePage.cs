@@ -29,7 +29,7 @@ namespace _01_planITpoker_clas_library_tests.Pages
         By storyTitleName = By.CssSelector(".story-title-inner");
         By storyListName = By.XPath("/html/body/div[1]/div/div[1]/div/div/section/div/div[2]/div[2]/div[1]/section/div/div[1]/div/div/div/div[1]/table/tbody/tr[1]/td[1]");
         By storyListName2 = By.XPath("/html/body/div[1]/div/div[1]/div/div/section/div/div[2]/div[2]/div[1]/section/div/div[1]/div/div/div/div[1]/table/tbody/tr[2]/td[1]");
-        By numberOfVotes = By.CssSelector("span.ng-scope:nth-child(3) > span:nth-child(1)");
+        By voteValue = By.CssSelector("span.ng-scope:nth-child(3) > span:nth-child(1)");
         By finishVoting = By.CssSelector(".control1 > div:nth-child(1) > div:nth-child(2) > button:nth-child(1)");
         By pieChart = By.CssSelector(".ct-chart-donut");
         By clearVotes = By.CssSelector(".controls > div:nth-child(1) > div:nth-child(3) > button:nth-child(1)");
@@ -73,13 +73,6 @@ namespace _01_planITpoker_clas_library_tests.Pages
             get
             {
                 return wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(userPlayers)).Text;
-            }
-        }
-        public string RoomName   //used for MultipleUsers Test Assert
-        {
-            get
-            {
-                return driver.FindElement(By.CssSelector(".page-header")).Text;
             }
         }
         public string Report  //used for CreateStoryReport Test Assert
@@ -135,7 +128,7 @@ namespace _01_planITpoker_clas_library_tests.Pages
         {
             get
             {
-                return wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(numberOfVotes)).Text;
+                return wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(voteValue)).Text;
             }
         }
         public string ToastError  //used for VotingTwiceOnSameStory & Observer cannot vote Test Assert
