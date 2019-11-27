@@ -20,12 +20,14 @@ namespace planITpokerTests_MVD.Pages
         By timer = By.CssSelector(".timer > div:nth-child(1) > span:nth-child(2)");
         By playerOneAvatar = By.CssSelector("div.player:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1)");
         By playerTwoAvatar = By.CssSelector("div.player:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1)");
+        By toastError = By.ClassName("toast-message");
         By moderatorRole = By.CssSelector(".open > ul:nth-child(2) > li:nth-child(1) > a:nth-child(1)");
         By observerRole = By.CssSelector(".open > ul:nth-child(2) > li:nth-child(2) > a:nth-child(1)");
         By createStory = By.CssSelector(".create-story-textarea > div:nth-child(1) > div:nth-child(1) > textarea:nth-child(1)");
         By saveAndAddNewStory = By.CssSelector("div.margin-bottom:nth-child(1) > button:nth-child(1)");
         By saveAndCloseButton = By.CssSelector("div.margin-bottom:nth-child(2) > button:nth-child(1)");
         By endTour = By.CssSelector("button.btn:nth-child(3)");
+        By finishVoting = By.CssSelector(".control1 > div:nth-child(1) > div:nth-child(2) > button:nth-child(1)");
 
         public MultipleUserGamePage(IWebDriver driver, WebDriverWait wait)
         {
@@ -53,18 +55,25 @@ namespace planITpokerTests_MVD.Pages
                 return wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(timer)).Text;
             }
         }
-        public string PlayerTwoName
+        public string PlayerTwoName  //used for DeAssignRoleOfModerator Test Assert
         {
             get
             {
                 return driver.FindElement(By.CssSelector("div.player:nth-child(2) > div:nth-child(2) > div:nth-child(1) > span:nth-child(1)")).Text;
             }
         }
-        public string Votes  //used for ObserverSeesPlayersVoteingInRealTime Test Assert
+        public string VoteValue  //used for ObserverSeesPlayersVoteingInRealTime Test Assert
         {
             get
             {
                 return wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(voteValue)).Text;
+            }
+        }
+        public IWebElement FinishVotingButton  //used for ModeratorCanFinishVotingOnlyAfterAllUsersVoted Test Assert
+        {
+            get
+            {
+                return wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(finishVoting));
             }
         }
         public MultipleUserGamePage CreateStory(string inputStory, string inputStory2)
@@ -74,12 +83,14 @@ namespace planITpokerTests_MVD.Pages
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(createStory)).SendKeys(inputStory2);
             driver.FindElement(saveAndCloseButton).Click();
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(endTour)).Click();
+            driver.FindElement(toastError).Click();
             var game = new MultipleUserGamePage(driver, wait);
             return game;
         }
         public MultipleUserGamePage Start()
         {
             driver.FindElement(startButton).Click();
+            driver.FindElement(toastError).Click();
             var game = new MultipleUserGamePage(driver, wait);
             return game;
         }
