@@ -41,7 +41,7 @@ namespace _01_planITpoker_clas_library_tests
         {
             var home = new HomePage(driver);
             var signUp = home.SignUp();
-            var room = signUp.SignUpLogin("Jack", "automationcounts@gmail.com", "123password098");
+            var room = signUp.SignUpValid("Jack", "automationcounts@gmail.com", "123password098");
             Assert.Equal("Recent Rooms", room.Title);
         }
         [Fact]
@@ -49,7 +49,7 @@ namespace _01_planITpoker_clas_library_tests
         {
             var home = new HomePage(driver);
             var login = home.Login();
-            var room = login.LoginLogin("automationcounts@gmail.com", "123password098");
+            var room = login.LoginValid("automationcounts@gmail.com", "123password098");
             Assert.Equal("Recent Rooms", room.Title);
         }
         [Fact]

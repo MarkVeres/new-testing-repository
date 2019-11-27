@@ -17,7 +17,7 @@ namespace _01_planITpoker_clas_library_tests.Pages
         WebDriverWait wait;
         By createStory = By.CssSelector(".create-story-textarea > div:nth-child(1) > div:nth-child(1) > textarea:nth-child(1)");
         By saveAndAddNewStory = By.CssSelector("div.margin-bottom:nth-child(1) > button:nth-child(1)");
-        By saveCloseButton = By.CssSelector("div.margin-bottom:nth-child(2) > button:nth-child(1)");
+        By saveAndCloseButton = By.CssSelector("div.margin-bottom:nth-child(2) > button:nth-child(1)");
         By endTour = By.CssSelector("button.btn:nth-child(3)");
         By timer = By.CssSelector(".timer > div:nth-child(1) > span:nth-child(2)");
         By userPlayers = By.CssSelector(".players-text");
@@ -25,7 +25,6 @@ namespace _01_planITpoker_clas_library_tests.Pages
         By skipStory = By.CssSelector(".controls > div:nth-child(1) > div:nth-child(4) > button:nth-child(1)");
         By nextStoryButton = By.CssSelector(".controls > div:nth-child(1) > div:nth-child(4) > button:nth-child(1)");
         By card1 = By.CssSelector("li.ng-scope:nth-child(3) > button:nth-child(1) > div:nth-child(2)");
-        By card2 = By.CssSelector(".cards > li:nth-child(4) > button:nth-child(1) > div:nth-child(2)");
         By storyTitleName = By.CssSelector(".story-title-inner");
         By storyListName = By.XPath("/html/body/div[1]/div/div[1]/div/div/section/div/div[2]/div[2]/div[1]/section/div/div[1]/div/div/div/div[1]/table/tbody/tr[1]/td[1]");
         By storyListName2 = By.XPath("/html/body/div[1]/div/div[1]/div/div/section/div/div[2]/div[2]/div[1]/section/div/div[1]/div/div/div/div[1]/table/tbody/tr[2]/td[1]");
@@ -41,25 +40,12 @@ namespace _01_planITpoker_clas_library_tests.Pages
         By deleteStoryButton = By.ClassName("btn-delete-icon");
         By exportStories = By.CssSelector(".open > ul:nth-child(2) > li:nth-child(1) > a:nth-child(1)");
         By estimates = By.Id("finalEstimate");
-        By estimatesOne = By.CssSelector("option.ng-binding:nth-child(3)");
-        By estimatesForty = By.CssSelector("option.ng-binding:nth-child(10)");
         By completedStoriesTab = By.CssSelector("section.stories-list:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > ul:nth-child(1) > li:nth-child(2) > a:nth-child(1) > span:nth-child(1)");
-        By toastMessage = By.CssSelector("#toast-container");
-        //By playerOneAvatar = By.CssSelector("div.player:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1)");
-        //By playerTwoAvatar = By.CssSelector("div.player:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1)");
-        //By moderatorRole = By.CssSelector(".open > ul:nth-child(2) > li:nth-child(1) > a:nth-child(1)");
 
         public GamePage(IWebDriver driver, WebDriverWait wait)
         {
             this.driver = driver;
             this.wait = wait;
-        }
-        public string InviteLink
-        {
-            get
-            {
-                return driver.FindElement(By.CssSelector("#invite-link")).GetAttribute("value").ToString();
-            }
         }
         public string EndTour  //used for DissallowStoryCreation Test Assert
         {
@@ -138,7 +124,7 @@ namespace _01_planITpoker_clas_library_tests.Pages
                 return wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(toastError)).Text;
             }
         }
-        public string NextStory  //used for SkipStory Test Assert
+        public string NextStoryButton  //used for SkipStory Test Assert
         {
             get
             {
@@ -157,14 +143,16 @@ namespace _01_planITpoker_clas_library_tests.Pages
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(createStory)).SendKeys(inputStory);
             driver.FindElement(saveAndAddNewStory).Click();
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(createStory)).SendKeys(inputStory2);
-            driver.FindElement(saveCloseButton).Click();
+            driver.FindElement(saveAndCloseButton).Click();
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(endTour)).Click();
+            driver.FindElement(toastError).Click();
             var game = new GamePage(driver, wait);
             return game;
         }
         public GamePage Start()
         {
             driver.FindElement(startButton).Click();
+            driver.FindElement(toastError).Click();
             var game = new GamePage(driver, wait);
             return game;
         }
@@ -174,19 +162,40 @@ namespace _01_planITpoker_clas_library_tests.Pages
             var cardsList = driver.FindElements(By.CssSelector(".cards li button"));
             var selectedCard = cardsList.First(e => e.FindElement(By.TagName("div")).Text == card);
             selectedCard.Click();
+            driver.FindElement(toastError).Click();
+            var game = new GamePage(driver, wait);
+            return game;
+        }
+        public GamePage SendEstimate(int num)
+        {
+            string numS = Convert.ToString(num);
+            var estimate = driver.FindElement(estimates);
+            var selectElement = new SelectElement(estimate);
+            selectElement.SelectByText(numS);
+            driver.FindElement(toastError).Click();
             var game = new GamePage(driver, wait);
             return game;
         }
         public GamePage FinishVoting()
         {
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(finishVoting)).Click();
+            driver.FindElement(toastError).Click();
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(pieChart));
+            var game = new GamePage(driver, wait);
+            return game;
+        }
+        public GamePage NextStory()
+        {
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(nextStoryButton)).Click();
+            driver.FindElement(toastError).Click();
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(clearVotes));
             var game = new GamePage(driver, wait);
             return game;
         }
         public GamePage ClearVotes()
         {
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(clearVotes)).Click();
+            driver.FindElement(toastError).Click();
             var game = new GamePage(driver, wait);
             return game;
         }
@@ -194,26 +203,6 @@ namespace _01_planITpoker_clas_library_tests.Pages
         {
             Thread.Sleep(32000);
             driver.FindElement(card1).Click();
-            var game = new GamePage(driver, wait);
-            return game;
-        }
-        public GamePage VoteAndSendEstimates()
-        {
-            //votes 1 and estimate = 1 on first question and votes 2 and estimate = 2 on second question
-            //also clicks toast messages so they dissapear faster in order to be able to click certain buttons
-            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(startButton)).Click();
-            driver.FindElement(toastMessage).Click();
-            driver.FindElement(card1).Click();
-            driver.FindElement(toastMessage).Click();
-            driver.FindElement(estimates).Click();
-            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(estimatesOne)).Click();
-            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(finishVoting)).Click();
-            driver.FindElement(toastMessage).Click();
-            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(nextStoryButton)).Click();
-            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(card2)).Click();
-            driver.FindElement(estimates).Click();
-            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(estimatesForty)).Click();
-            driver.FindElement(finishVoting).Click();
             var game = new GamePage(driver, wait);
             return game;
         }
@@ -296,23 +285,5 @@ namespace _01_planITpoker_clas_library_tests.Pages
             var game = new GamePage(driver, wait);
             return game;
         }
-        //public GamePage ClickPlayerOneAvatar()
-        //{
-        //    wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(playerOneAvatar)).Click();
-        //    var game = new GamePage(driver, wait);
-        //    return game;
-        //}
-        //public GamePage ClickPlayerTwoAvatar()
-        //{
-        //    wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(playerTwoAvatar)).Click();
-        //    var game = new GamePage(driver, wait);
-        //    return game;
-        //}
-        //public GamePage AssignModeratorRole()
-        //{
-        //    driver.FindElement(moderatorRole).Click();
-        //    var game = new GamePage(driver, wait);
-        //    return game;
-        //}
     }
 }

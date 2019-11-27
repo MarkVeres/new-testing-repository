@@ -17,9 +17,7 @@ namespace _01_planITpoker_clas_library_tests
         WebDriverWait wait;
         By createRoomName = By.Id("createRoomNameInput");
         By createButton = By.ClassName("btn-ok");
-        By saveButton = By.CssSelector("div.in:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(2) > div:nth-child(1) > button:nth-child(1)");
         By createNewRoomButton = By.CssSelector(".btn-create-room");
-        By roomList = By.ClassName(".clickable");
         By roomName = By.CssSelector(".name-td");
         By resetGameRoom = By.CssSelector(".fa-undo");
         By editGameRoom = By.CssSelector(".edit-icon");
@@ -41,7 +39,7 @@ namespace _01_planITpoker_clas_library_tests
                 return driver.FindElement(By.CssSelector(".col-sm-9 > div:nth-child(1)")).Text;
             }
         }
-        public IEnumerable RoomList
+        public IEnumerable RoomList  //used for DeleteGameRoom Test Assert
         {
             get
             {

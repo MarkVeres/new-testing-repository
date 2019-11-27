@@ -16,7 +16,7 @@ namespace _01_planITpoker_clas_library_tests
         By password = By.Name("inputPassword");
         By loginButton = By.CssSelector(".btn-default");
 
-        public string Error
+        public string Error  //used for Invalid Login Test Assert
         {
             get
             {
@@ -29,7 +29,7 @@ namespace _01_planITpoker_clas_library_tests
             this.driver = driver;
             this.wait = wait;
         }
-        public RoomsPage LoginLogin(string inputEmail, string inputPassword)
+        public RoomsPage LoginValid(string inputEmail, string inputPassword)
         {
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(email)).SendKeys(inputEmail);
             driver.FindElement(password).SendKeys(inputPassword);

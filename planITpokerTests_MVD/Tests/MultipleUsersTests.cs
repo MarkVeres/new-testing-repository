@@ -21,7 +21,7 @@ namespace planITpokerTests_MVD.Tests
         public void UserInvitedByInviteLink()
         {
             var home = new HomePage(driver);
-            var game = home.QuickPlayGame("Jack", "Test Room", "Test Story", "Test Story 2");
+            var game = home.MultipleUserQuickPlayGame("Jack", "Test Room", "Test Story", "Test Story 2");
             string website = game.InviteLink;
             driver.Quit();
             driver2 = new FirefoxDriver();

@@ -84,7 +84,7 @@ namespace _01_planITpoker_clas_library_tests
             game.Start();
             game.SkipStory();
             //asserts Next button that appears after skipping a story
-            Assert.Equal("Next Story", game.NextStory);
+            Assert.Equal("Next Story", game.NextStoryButton);
         }
         [Fact]
         public void TimeTheVoteProcess()
@@ -122,7 +122,10 @@ namespace _01_planITpoker_clas_library_tests
         {
             var home = new HomePage(driver);
             var game = home.QuickPlayGame("Jack", "Test Room", " Test Story", "Test Story 2");
-            game.VoteAndSendEstimates();
+            game.Start();
+            game.Vote(1);
+            game.SendEstimate(40);
+            game.FinishVoting();
             game.ScrollDownSeeStoryDetails();
             Assert.Equal("40", game.FinalEstimate);
         }
@@ -148,7 +151,14 @@ namespace _01_planITpoker_clas_library_tests
         {
             var home = new HomePage(driver);
             var game = home.QuickPlayGame("Jack", "Test Room", "Test Story", "Test Story 2");
-            game.VoteAndSendEstimates();
+            game.Start();
+            game.Vote(1);
+            game.SendEstimate(2);
+            game.FinishVoting();
+            game.NextStory();
+            game.Vote(2);
+            game.SendEstimate(40);
+            game.FinishVoting();
             game.ScrollDownSeeStoryDetails();
             game.SortStoriesByFinalEstimate();
             Assert.Equal("40", game.FinalEstimateSortBy);

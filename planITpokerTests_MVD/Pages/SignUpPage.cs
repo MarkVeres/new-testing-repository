@@ -30,7 +30,7 @@ namespace _01_planITpoker_clas_library_tests
             }
         }
 
-        public RoomsPage SignUpLogin(string inputName, string inputEmail, string inputPassword)
+        public RoomsPage SignUpValid(string inputName, string inputEmail, string inputPassword)
         {
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(userName)).SendKeys(inputName);
             driver.FindElement(email).SendKeys(inputEmail);

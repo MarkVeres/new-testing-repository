@@ -24,7 +24,7 @@ namespace planITpokerTests_MVD.Pages
         By observerRole = By.CssSelector(".open > ul:nth-child(2) > li:nth-child(2) > a:nth-child(1)");
         By createStory = By.CssSelector(".create-story-textarea > div:nth-child(1) > div:nth-child(1) > textarea:nth-child(1)");
         By saveAndAddNewStory = By.CssSelector("div.margin-bottom:nth-child(1) > button:nth-child(1)");
-        By saveCloseButton = By.CssSelector("div.margin-bottom:nth-child(2) > button:nth-child(1)");
+        By saveAndCloseButton = By.CssSelector("div.margin-bottom:nth-child(2) > button:nth-child(1)");
         By endTour = By.CssSelector("button.btn:nth-child(3)");
 
         public MultipleUserGamePage(IWebDriver driver, WebDriverWait wait)
@@ -32,7 +32,7 @@ namespace planITpokerTests_MVD.Pages
             this.driver = driver;
             this.wait = wait;
         }
-        public string InviteLink
+        public string InviteLink  //used for all MultipleUserTests to join game
         {
             get
             {
@@ -72,7 +72,7 @@ namespace planITpokerTests_MVD.Pages
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(createStory)).SendKeys(inputStory);
             driver.FindElement(saveAndAddNewStory).Click();
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(createStory)).SendKeys(inputStory2);
-            driver.FindElement(saveCloseButton).Click();
+            driver.FindElement(saveAndCloseButton).Click();
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(endTour)).Click();
             var game = new MultipleUserGamePage(driver, wait);
             return game;
