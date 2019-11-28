@@ -42,7 +42,22 @@ namespace planITpokerTests_MVD.Tests
             var uGame = uHome.JoinQuickPlay("John");
             uGame.Vote(2);
             //asserts that after the second user has voted, he can see the first user's vote
-            Assert.Equal("1", game.VoteValue);            
+            Assert.Equal("1", game.VoteValueOne);            
+        }
+        [Fact]
+        public void NewUserJoinAndVoteAfterVotingStarts()
+        {
+            var home = new HomePage(driver);
+            var game = home.MultipleUserQuickPlayGame("Jack", "Test Room", "Test Story", "Test Story 2");
+            game.Start();
+            game.Vote(1);
+            string website = game.InviteLink;
+            driver2 = new FirefoxDriver();
+            var uHome = new QuickPlayPage(driver2, website);
+            var uGame = uHome.JoinQuickPlay("John");
+            uGame.Vote(2);
+            driver.SwitchTo().Window(driver.WindowHandles.Last());
+            Assert.Equal("2", game.VoteValueTwo);
         }
         [Fact]
         public void ModeratorCanFinishVotingOnlyAfterAllUsersVoted()
@@ -106,7 +121,7 @@ namespace planITpokerTests_MVD.Tests
             uGame.ClickPlayerTwoAvatar();
             uGame.ClickObserverRole();
             Assert.NotEqual("00:00:00", uGame.Timer);
-            Assert.Equal("1", game.VoteValue);
+            Assert.Equal("1", game.VoteValueOne);
         }
         public void Dispose()
         {

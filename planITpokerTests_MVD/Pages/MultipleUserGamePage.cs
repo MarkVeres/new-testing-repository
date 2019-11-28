@@ -17,7 +17,8 @@ namespace planITpokerTests_MVD.Pages
         IWebDriver driver;
         WebDriverWait wait;
         By startButton = By.CssSelector("#btn-start");
-        By voteValue = By.CssSelector("span.ng-scope:nth-child(3) > span:nth-child(1)");
+        By voteValueOne = By.CssSelector("span.ng-scope:nth-child(3) > span:nth-child(1)");
+        By voteValueTwo = By.CssSelector("div.player:nth-child(2) > div:nth-child(3)");
         By timer = By.CssSelector(".timer > div:nth-child(1) > span:nth-child(2)");
         By playerOneAvatar = By.CssSelector("div.player:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1)");
         By playerTwoAvatar = By.CssSelector("div.player:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1)");
@@ -64,11 +65,18 @@ namespace planITpokerTests_MVD.Pages
                 return driver.FindElement(By.CssSelector("div.player:nth-child(2) > div:nth-child(2) > div:nth-child(1) > span:nth-child(1)")).Text;
             }
         }
-        public string VoteValue  //used for ObserverSeesPlayersVoteingInRealTime Test Assert
+        public string VoteValueOne  //used for ObserverSeesPlayersVoteingInRealTime Test Assert
         {
             get
             {
-                return wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(voteValue)).Text;
+                return wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(voteValueOne)).Text;
+            }
+        }
+        public string VoteValueTwo  //used for NewUserJoinAndVoteAfterVotingStarts Test Assert
+        {
+            get
+            {
+                return wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(voteValueTwo)).Text;
             }
         }
         public IWebElement FinishVotingButton  //used for ModeratorCanFinishVotingOnlyAfterAllUsersVoted Test Assert
@@ -110,6 +118,13 @@ namespace planITpokerTests_MVD.Pages
             var cardsList = driver.FindElements(By.CssSelector(".cards li button"));
             var selectedCard = cardsList.First(e => e.FindElement(By.TagName("div")).Text == card);
             selectedCard.Click();
+            var game = new MultipleUserGamePage(driver, wait);
+            return game;
+        }
+        public MultipleUserGamePage FinishVoting()
+        {
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(finishVoting)).Click();
+            driver.FindElement(toastError).Click();
             var game = new MultipleUserGamePage(driver, wait);
             return game;
         }
