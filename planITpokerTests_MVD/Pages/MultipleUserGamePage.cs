@@ -3,6 +3,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,6 +29,7 @@ namespace planITpokerTests_MVD.Pages
         By saveAndCloseButton = By.CssSelector("div.margin-bottom:nth-child(2) > button:nth-child(1)");
         By endTour = By.CssSelector("button.btn:nth-child(3)");
         By finishVoting = By.CssSelector(".control1 > div:nth-child(1) > div:nth-child(2) > button:nth-child(1)");
+        By removeUserButton = By.CssSelector(".open > ul:nth-child(2) > li:nth-child(4) > a:nth-child(1)");
 
         public MultipleUserGamePage(IWebDriver driver, WebDriverWait wait)
         {
@@ -74,6 +76,14 @@ namespace planITpokerTests_MVD.Pages
             get
             {
                 return wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(finishVoting));
+            }
+        }
+        public bool PlayerList  //used for ModeratorCanRemovePlayer Test Assert
+        {
+            get
+            {
+                bool exist = driver.FindElements(By.CssSelector(".players-list")).Count == 1;
+                return exist;
             }
         }
         public MultipleUserGamePage CreateStory(string inputStory, string inputStory2)
@@ -124,6 +134,12 @@ namespace planITpokerTests_MVD.Pages
         public MultipleUserGamePage ClickObserverRole()
         {
             driver.FindElement(observerRole).Click();
+            var game = new MultipleUserGamePage(driver, wait);
+            return game;
+        }
+        public MultipleUserGamePage RemoveUser()
+        {
+            driver.FindElement(removeUserButton).Click();
             var game = new MultipleUserGamePage(driver, wait);
             return game;
         }

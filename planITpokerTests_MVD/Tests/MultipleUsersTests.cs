@@ -60,6 +60,20 @@ namespace planITpokerTests_MVD.Tests
             Assert.NotNull(game.FinishVotingButton);
         }
         [Fact]
+        public void ModeratorCanRemovePlayer()
+        {
+            var home = new HomePage(driver);
+            var game = home.MultipleUserQuickPlayGame("Jack", "Test Room", "Test Story", "Test Story 2");
+            string website = game.InviteLink;
+            driver2 = new FirefoxDriver();
+            var uHome = new QuickPlayPage(driver2, website);
+            var uGame = uHome.JoinQuickPlay("John");
+            driver.SwitchTo().Window(driver.WindowHandles.Last());
+            game.ClickPlayerTwoAvatar();
+            game.RemoveUser();
+            Assert.True(game.PlayerList);
+        }
+        [Fact]
         public void DeAssignRoleOfModerator()
         {
             var home = new HomePage(driver);
