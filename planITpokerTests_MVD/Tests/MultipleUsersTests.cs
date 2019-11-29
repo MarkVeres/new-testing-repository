@@ -58,7 +58,7 @@ namespace planITpokerTests_MVD.Tests
             uGame.Vote(2);
             driver.SwitchTo().Window(driver.WindowHandles.Last());
             Assert.Equal("2", game.VoteValueTwo);
-        }
+        }        
         [Fact]
         public void ModeratorCanFinishVotingOnlyAfterAllUsersVoted()
         {
@@ -73,6 +73,25 @@ namespace planITpokerTests_MVD.Tests
             uGame.Vote(2);
             driver.SwitchTo().Window(driver.WindowHandles.Last());
             Assert.NotNull(game.FinishVotingButton);
+        }
+        [Fact]
+        public void VoteLeaveSiteAndVoteAgain()
+        {
+            var home = new HomePage(driver);
+            var game = home.MultipleUserQuickPlayGame("Jack", "Test Room", "Test Story", "Test Story 2");
+            game.Start();
+            string website = game.InviteLink;
+            driver2 = new FirefoxDriver();
+            var uHome = new QuickPlayPage(driver2, website);
+            var uGame = uHome.JoinQuickPlay("John");
+            uGame.Vote(1);
+            driver2.Navigate().GoToUrl("https://www.google.com/");
+            driver2.Navigate().GoToUrl(website);
+            uGame.Vote(1);
+            //Asserts that the second user (John) has voted once again after rejoining
+            //since the moderator did not press "Finish Voting" before John left the website
+            //being able to vote once again proves that the web app did not remember the initial vote input
+            Assert.Equal("John voted.", uGame.ToastMessage);
         }
         [Fact]
         public void ModeratorCanRemovePlayer()

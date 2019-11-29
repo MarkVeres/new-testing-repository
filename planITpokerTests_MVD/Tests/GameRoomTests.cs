@@ -38,6 +38,17 @@ namespace _01_planITpoker_clas_library_tests
             Assert.Equal("1", game.Votes);
         }
         [Fact]
+        public void ReVotingAfterClearingVotes()
+        {
+            var home = new HomePage(driver);
+            var game = home.QuickPlayGame("Jack", "Test Room", "Test Story", "Test Story 2");
+            game.Start();
+            game.Vote(1);
+            game.ClearVotes();
+            game.Vote(1);
+            Assert.Equal("1", game.Votes);
+        }
+        [Fact]
         public void VoteBeforeGameStarts()
         {
             var home = new HomePage(driver);
@@ -54,17 +65,6 @@ namespace _01_planITpoker_clas_library_tests
             game.Vote(1);
             game.Vote(2);
             Assert.Equal("Vote cannot be changed once voting is completed", game.ToastError);
-        }
-        [Fact]
-        public void ReVotingAfterClearingVotes()
-        {
-            var home = new HomePage(driver);
-            var game = home.QuickPlayGame("Jack", "Test Room", "Test Story", "Test Story 2");
-            game.Start();
-            game.Vote(1);
-            game.ClearVotes();
-            game.Vote(1);
-            Assert.Equal("1", game.Votes);
         }
         [Fact]
         public void ObserverCannotVote()

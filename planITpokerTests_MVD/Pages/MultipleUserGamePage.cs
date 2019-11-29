@@ -31,6 +31,7 @@ namespace planITpokerTests_MVD.Pages
         By endTour = By.CssSelector("button.btn:nth-child(3)");
         By finishVoting = By.CssSelector(".control1 > div:nth-child(1) > div:nth-child(2) > button:nth-child(1)");
         By removeUserButton = By.CssSelector(".open > ul:nth-child(2) > li:nth-child(4) > a:nth-child(1)");
+        By estimates = By.Id("finalEstimate");
 
         public MultipleUserGamePage(IWebDriver driver, WebDriverWait wait)
         {
@@ -94,6 +95,13 @@ namespace planITpokerTests_MVD.Pages
                 return exist;
             }
         }
+        public string ToastMessage    //used for VoteLeaveSiteAndVoteAgain Test Assert
+        {
+            get
+            {
+                return wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(toastError)).Text;
+            }
+        }
         public MultipleUserGamePage CreateStory(string inputStory, string inputStory2)
         {
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(createStory)).SendKeys(inputStory);
@@ -114,10 +122,21 @@ namespace planITpokerTests_MVD.Pages
         }
         public MultipleUserGamePage Vote(int num)
         {
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(playerOneAvatar));
             string card = Convert.ToString(num);
             var cardsList = driver.FindElements(By.CssSelector(".cards li button"));
             var selectedCard = cardsList.First(e => e.FindElement(By.TagName("div")).Text == card);
             selectedCard.Click();
+            var game = new MultipleUserGamePage(driver, wait);
+            return game;
+        }
+        public MultipleUserGamePage SendEstimate(int num)
+        {
+            string numS = Convert.ToString(num);
+            var estimate = driver.FindElement(estimates);
+            var selectElement = new SelectElement(estimate);
+            selectElement.SelectByText(numS);
+            driver.FindElement(toastError).Click();
             var game = new MultipleUserGamePage(driver, wait);
             return game;
         }
