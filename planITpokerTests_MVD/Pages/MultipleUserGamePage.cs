@@ -1,4 +1,5 @@
-﻿using _01_planITpoker_clas_library_tests.Tests;
+﻿using _01_planITpoker_clas_library_tests;
+using _01_planITpoker_clas_library_tests.Tests;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
@@ -32,6 +33,8 @@ namespace planITpokerTests_MVD.Pages
         By finishVoting = By.CssSelector(".control1 > div:nth-child(1) > div:nth-child(2) > button:nth-child(1)");
         By removeUserButton = By.CssSelector(".open > ul:nth-child(2) > li:nth-child(4) > a:nth-child(1)");
         By estimates = By.Id("finalEstimate");
+        By account = By.CssSelector("a.dropdown-toggle");
+        By accountRooms = By.CssSelector("li.collapsed:nth-child(4) > a:nth-child(1)");
 
         public MultipleUserGamePage(IWebDriver driver, WebDriverWait wait)
         {
@@ -176,6 +179,13 @@ namespace planITpokerTests_MVD.Pages
             driver.FindElement(removeUserButton).Click();
             var game = new MultipleUserGamePage(driver, wait);
             return game;
+        }
+        public RoomsPage GoToRoomsPage()
+        {
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(account)).Click();
+            driver.FindElement(accountRooms).Click();
+            var room = new RoomsPage(driver, wait);
+            return room;
         }
     }
 }

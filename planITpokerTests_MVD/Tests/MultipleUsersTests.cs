@@ -56,11 +56,10 @@ namespace planITpokerTests_MVD.Tests
             var uHome = new QuickPlayPage(driver2, website);
             var uGame = uHome.JoinQuickPlay("John");
             uGame.Vote(2);
-            driver.SwitchTo().Window(driver.WindowHandles.Last());
             Assert.Equal("2", game.VoteValueTwo);
         }        
         [Fact]
-        public void ModeratorCanFinishVotingOnlyAfterAllUsersVoted()
+        public void ModeratorCanPressFinishVotingOnlyAfterAllUsersVoted()
         {
             var home = new HomePage(driver);
             var game = home.MultipleUserQuickPlayGame("Jack", "Test Room", "Test Story", "Test Story 2");
@@ -71,7 +70,6 @@ namespace planITpokerTests_MVD.Tests
             var uHome = new QuickPlayPage(driver2, website);
             var uGame = uHome.JoinQuickPlay("John");
             uGame.Vote(2);
-            driver.SwitchTo().Window(driver.WindowHandles.Last());
             Assert.NotNull(game.FinishVotingButton);
         }
         [Fact]
@@ -102,7 +100,6 @@ namespace planITpokerTests_MVD.Tests
             driver2 = new FirefoxDriver();
             var uHome = new QuickPlayPage(driver2, website);
             var uGame = uHome.JoinQuickPlay("John");
-            driver.SwitchTo().Window(driver.WindowHandles.Last());
             game.ClickPlayerTwoAvatar();
             game.RemoveUser();
             Assert.True(game.PlayerList);
@@ -116,11 +113,10 @@ namespace planITpokerTests_MVD.Tests
             driver2 = new FirefoxDriver();
             var uHome = new QuickPlayPage(driver2, website);
             var uGame = uHome.JoinQuickPlay("John");
-            driver.SwitchTo().Window(driver.WindowHandles.Last());
             game.ClickPlayerTwoAvatar();
-            game.ClickModeratorRole();
+            game.ClickModeratorRole();    //assign player two as moderator
             game.ClickPlayerOneAvatar();
-            game.ClickModeratorRole();
+            game.ClickModeratorRole();    //de-assign player one as moderator
             //first player is Jack who makes the room and is moderator (and is the first in the player name list)
             //Jack makes John the moderator and then de-assigns himself as moderator
             //now Jack is second in the player name list
@@ -141,6 +137,20 @@ namespace planITpokerTests_MVD.Tests
             uGame.ClickObserverRole();
             Assert.NotEqual("00:00:00", uGame.Timer);
             Assert.Equal("1", game.VoteValueOne);
+        }
+        [Fact]
+        public void DeleteGameRoomWithUserInside()
+        {
+            var home = new HomePage(driver);
+            var game = home.MultipleUserQuickPlayGame("Jack", "Test Room", "Test Story", "Test Story 2");
+            string website = game.InviteLink;
+            driver2 = new FirefoxDriver();
+            var uHome = new QuickPlayPage(driver2, website);
+            var uGame = uHome.JoinQuickPlay("John");
+            var room = game.GoToRoomsPage();
+            room.DeleteGameRoom();
+            uGame.Vote(1);
+            Assert.Equal("Waiting for moderator", uGame.ToastMessage);
         }
         public void Dispose()
         {
