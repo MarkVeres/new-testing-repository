@@ -152,6 +152,60 @@ namespace planITpokerTests_MVD.Tests
             uGame.Vote(1);
             Assert.Equal("Waiting for moderator", uGame.ToastMessage);
         }
+        [Fact]
+        public void CanPlayerUserClearVotes()
+        {
+            var home = new HomePage(driver);
+            var game = home.MultipleUserQuickPlayGame("Jack", "Test Room", "Test Story", "Test Story 2");
+            game.Start();
+            game.Vote(1);
+            string website = game.InviteLink;
+            driver2 = new FirefoxDriver();
+            var uHome = new QuickPlayPage(driver2, website);
+            var uGame = uHome.JoinQuickPlay("John");
+            uGame.Vote(2);
+            Assert.False(uGame.ClearVotesButton.Displayed);
+        }
+        [Fact]
+        public void CanPlayerUserSkipStories()
+        {
+            var home = new HomePage(driver);
+            var game = home.MultipleUserQuickPlayGame("Jack", "Test Room", "Test Story", "Test Story 2");
+            game.Start();
+            game.Vote(1);
+            string website = game.InviteLink;
+            driver2 = new FirefoxDriver();
+            var uHome = new QuickPlayPage(driver2, website);
+            var uGame = uHome.JoinQuickPlay("John");
+            Assert.False(uGame.SkipStoryButton.Displayed);
+        }
+        [Fact]
+        public void CanPlayerUserFinishVoting()
+        {
+            var home = new HomePage(driver);
+            var game = home.MultipleUserQuickPlayGame("Jack", "Test Room", "Test Story", "Test Story 2");
+            game.Start();
+            game.Vote(1);
+            string website = game.InviteLink;
+            driver2 = new FirefoxDriver();
+            var uHome = new QuickPlayPage(driver2, website);
+            var uGame = uHome.JoinQuickPlay("John");
+            uGame.Vote(2);
+            Assert.False(uGame.FinishVotingButton.Displayed);
+        }
+        [Fact]
+        public void CanPlayerUserResetTimer()
+        {
+            var home = new HomePage(driver);
+            var game = home.MultipleUserQuickPlayGame("Jack", "Test Room", "Test Story", "Test Story 2");
+            game.Start();
+            game.Vote(1);
+            string website = game.InviteLink;
+            driver2 = new FirefoxDriver();
+            var uHome = new QuickPlayPage(driver2, website);
+            var uGame = uHome.JoinQuickPlay("John");
+            Assert.False(uGame.ResetTimerButton.Displayed);
+        }
         public void Dispose()
         {
             driver.Quit();

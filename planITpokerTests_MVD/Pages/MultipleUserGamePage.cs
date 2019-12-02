@@ -35,6 +35,8 @@ namespace planITpokerTests_MVD.Pages
         By estimates = By.Id("finalEstimate");
         By account = By.CssSelector("a.dropdown-toggle");
         By accountRooms = By.CssSelector("li.collapsed:nth-child(4) > a:nth-child(1)");
+        By clearVotes = By.CssSelector(".controls > div:nth-child(1) > div:nth-child(3) > button:nth-child(1)");
+        By skipStory = By.CssSelector(".controls > div:nth-child(1) > div:nth-child(4) > button:nth-child(1)");
 
         public MultipleUserGamePage(IWebDriver driver, WebDriverWait wait)
         {
@@ -83,11 +85,32 @@ namespace planITpokerTests_MVD.Pages
                 return wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(voteValueTwo)).Text;
             }
         }
+        public IWebElement ClearVotesButton   //used for CanPlayerClearVotes test Assert
+        {
+            get
+            {
+                return driver.FindElement(clearVotes);
+            }
+        }
+        public IWebElement SkipStoryButton   //used for CanPlayerSkipStories test Assert
+        {
+            get
+            {
+                return driver.FindElement(skipStory);
+            }
+        }
+        public IWebElement ResetTimerButton
+        {
+            get
+            {
+                return driver.FindElement(By.CssSelector(".controls > div:nth-child(1) > div:nth-child(1) > button:nth-child(1)"));
+            }
+        }
         public IWebElement FinishVotingButton  //used for ModeratorCanFinishVotingOnlyAfterAllUsersVoted Test Assert
         {
             get
             {
-                return wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(finishVoting));
+                return driver.FindElement(finishVoting);
             }
         }
         public bool PlayerList  //used for ModeratorCanRemovePlayer Test Assert
@@ -139,6 +162,13 @@ namespace planITpokerTests_MVD.Pages
             var estimate = driver.FindElement(estimates);
             var selectElement = new SelectElement(estimate);
             selectElement.SelectByText(numS);
+            driver.FindElement(toastError).Click();
+            var game = new MultipleUserGamePage(driver, wait);
+            return game;
+        }
+        public MultipleUserGamePage ClearVotes()
+        {
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(clearVotes)).Click();
             driver.FindElement(toastError).Click();
             var game = new MultipleUserGamePage(driver, wait);
             return game;
